@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useItems } from "../hooks/useItems";
 
 export default function ListOfItems() {
@@ -27,7 +28,9 @@ export default function ListOfItems() {
                             <td>{item.price}</td>
                             <td>{item.status}</td>
                             <td>
-                                <button>Buy</button>
+                                <Link to="/payment">
+                                    <button>Buy</button>
+                                </Link>
                             </td>
                         </tr>
                     ))}

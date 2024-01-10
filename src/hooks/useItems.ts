@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import itemsAPI from "../api/fields";
+import { useLoading } from "./useLoading";
 
 interface Item {
     id: number;
@@ -11,8 +12,10 @@ interface Item {
 
 export const useItems = () => {
     const [items, setItems] = useState<Item[]>([]);
+    const { setLoading } = useLoading();
 
     useEffect(() => {
+        setLoading(true);
         itemsAPI
             .getItems()
             .then((response) => {
@@ -21,9 +24,11 @@ export const useItems = () => {
                 } else {
                     console.log("Error on getting items");
                 }
+                setLoading(false);
             })
             .catch((error) => {
                 console.log(error);
+                setLoading(false);
             });
     }, []);
 
