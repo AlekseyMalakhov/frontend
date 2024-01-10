@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
 import itemsAPI from "../api/fields";
 import { useLoading } from "./useLoading";
-
-interface Item {
-    id: number;
-    name: string;
-    created_at: string;
-    status: string;
-    price: string;
-}
+import { Item } from "../types/item";
 
 export const useItems = () => {
     const [items, setItems] = useState<Item[]>([]);

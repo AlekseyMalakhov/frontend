@@ -1,12 +1,22 @@
-import { Link } from "react-router-dom";
 import { useItems } from "../hooks/useItems";
+import { Item } from "../types/item";
+import { useAppDispatch } from "../hooks/reduxHooks";
+import { setItemToBuy } from "../store/manage";
+import { useNavigate } from "react-router-dom";
 
 export default function ListOfItems() {
+    const navigate = useNavigate();
     const items = useItems();
+    const dispatch = useAppDispatch();
 
     if (items.length === 0) {
         return <main>No data</main>;
     }
+
+    const buy = (item: Item) => {
+        dispatch(setItemToBuy(item));
+        navigate("/payment");
+    };
 
     return (
         <main>
@@ -28,9 +38,7 @@ export default function ListOfItems() {
                             <td>{item.price}</td>
                             <td>{item.status}</td>
                             <td>
-                                <Link to="/payment">
-                                    <button>Buy</button>
-                                </Link>
+                                <button onClick={() => buy(item)}>Buy</button>
                             </td>
                         </tr>
                     ))}
