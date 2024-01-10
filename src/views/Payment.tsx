@@ -9,6 +9,10 @@ import CheckoutForm from "../components/CheckoutForm";
 // This is your test publishable API key.
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE);
 
+const appearance = {
+    theme: "stripe" as const,
+};
+
 export default function Payment() {
     const itemToBuy = useAppSelector((state) => state.manage.itemToBuy);
     const [clientSecret, setClientSecret] = useState("");
@@ -28,9 +32,21 @@ export default function Payment() {
         return "No item to buy";
     }
 
+    const options = {
+        clientSecret,
+        appearance,
+    };
+
     return (
         <div>
-            Payment for {itemToBuy.name}. Price {itemToBuy.price}$
+            <div>
+                Payment for {itemToBuy.name}. Price {itemToBuy.price}$
+            </div>
+            {clientSecret && (
+                <Elements options={options} stripe={stripePromise}>
+                    <CheckoutForm />
+                </Elements>
+            )}
         </div>
     );
 }
