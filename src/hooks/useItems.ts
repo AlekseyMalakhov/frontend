@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import itemsAPI from "../api/fields";
 
+interface Item {
+    id: number;
+    name: string;
+    created_at: string;
+    status: string;
+    price: string;
+}
+
 export const useItems = () => {
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState<Item[]>([]);
 
     useEffect(() => {
         itemsAPI
