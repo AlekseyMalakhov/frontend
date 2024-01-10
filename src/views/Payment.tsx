@@ -1,5 +1,5 @@
 import { useAppSelector } from "../hooks/reduxHooks";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../components/CheckoutForm";
@@ -20,10 +20,14 @@ export default function Payment() {
     const [clientSecret, setClientSecret] = useState("");
     const { setLoading } = useLoading();
 
+    //prevent running useEffect twice in dev mode (when strict mode is on)
+    const init = useRef(false);
+
     useEffect(() => {
-        if (!itemToBuy) {
+        if (!itemToBuy || init.current) {
             return;
         }
+        init.current = true;
         setLoading(true);
         itemsAPI
             .createPaymentIntent(itemToBuy)
