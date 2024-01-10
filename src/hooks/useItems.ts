@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import itemsAPI from "../api/fields";
+import itemsAPI from "../api/items";
 import { useLoading } from "./useLoading";
 import { Item } from "../types/item";
 
