@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useLoading } from "../hooks/useLoading";
+import { Link } from "react-router-dom";
 
 export default function CheckoutForm() {
     const stripe = useStripe();
@@ -73,28 +74,43 @@ export default function CheckoutForm() {
         <form id="payment-form" onSubmit={handleSubmit}>
             <PaymentElement id="payment-element" options={paymentElementOptions} />
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <button
-                    disabled={loading || !stripe || !elements}
-                    id="submit"
-                    style={{
-                        marginTop: "20px",
-                        width: "150px",
-                        height: "40px",
-                        fontSize: "16px",
-                    }}
-                >
-                    <span id="button-text">
-                        {loading ? (
-                            <div className="spinner" id="spinner">
-                                Waiting
-                            </div>
-                        ) : (
-                            "Pay now"
-                        )}
-                    </span>
-                </button>
-                {/* Show any error or success messages */}
-                {message && <div id="payment-message">{message}</div>}
+                <Link to="/">
+                    <button
+                        style={{
+                            marginTop: "20px",
+                            marginRight: "50px",
+                            width: "150px",
+                            height: "40px",
+                            fontSize: "16px",
+                        }}
+                    >
+                        Cancel
+                    </button>
+                </Link>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <button
+                        disabled={loading || !stripe || !elements}
+                        id="submit"
+                        style={{
+                            marginTop: "20px",
+                            width: "150px",
+                            height: "40px",
+                            fontSize: "16px",
+                        }}
+                    >
+                        <span id="button-text">
+                            {loading ? (
+                                <div className="spinner" id="spinner">
+                                    Waiting
+                                </div>
+                            ) : (
+                                "Pay now"
+                            )}
+                        </span>
+                    </button>
+                    {/* Show any error or success messages */}
+                    {message && <div id="payment-message">{message}</div>}
+                </div>
             </div>
         </form>
     );
