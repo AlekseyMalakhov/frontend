@@ -38,7 +38,9 @@ export default function ListOfItems() {
                             <td>{item.price}</td>
                             <td>{item.status}</td>
                             <td>
-                                <button onClick={() => buy(item)}>Buy</button>
+                                <button disabled={item.status === "paid"} onClick={() => buy(item)}>
+                                    Buy
+                                </button>
                             </td>
                         </tr>
                     ))}
