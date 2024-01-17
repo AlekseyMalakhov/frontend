@@ -61,7 +61,7 @@ export default function Payment() {
             </div>
             {clientSecret && (
                 <Elements options={options} stripe={stripePromise}>
-                    <CheckoutForm />
+                    <CheckoutForm itemToBuy={itemToBuy} />
                 </Elements>
             )}
         </div>

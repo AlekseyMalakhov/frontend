@@ -2,8 +2,13 @@ import { useEffect, useState } from "react";
 import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useLoading } from "../hooks/useLoading";
 import { Link } from "react-router-dom";
+import { Item } from "../types/item";
 
-export default function CheckoutForm() {
+interface Props {
+    itemToBuy: Item | null;
+}
+
+export default function CheckoutForm({ itemToBuy }: Props) {
     const stripe = useStripe();
     const elements = useElements();
 
@@ -16,14 +21,16 @@ export default function CheckoutForm() {
         }
 
         const clientSecret = new URLSearchParams(window.location.search).get("payment_intent_client_secret");
+        console.log(clientSecret);
 
+        //it seems normally never run as clientSecret in URLSearchParams is always null
         if (!clientSecret) {
             return;
         }
 
         stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
             if (paymentIntent) {
-                //console.log(paymentIntent.status);
+                console.log(paymentIntent.status);
                 switch (paymentIntent.status) {
                     case "succeeded":
                         setMessage("Payment succeeded!");
@@ -44,7 +51,7 @@ export default function CheckoutForm() {
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
-        if (!stripe || !elements) {
+        if (!stripe || !elements || !itemToBuy) {
             return;
         }
         setLoading(true);
@@ -53,7 +60,7 @@ export default function CheckoutForm() {
             elements,
             confirmParams: {
                 // Make sure to change this to your payment completion page
-                return_url: "http://localhost:5173",
+                return_url: `http://localhost:5173/payment-success/${itemToBuy.id}`,
             },
         });
 
