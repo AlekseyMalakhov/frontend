@@ -19,9 +19,19 @@ const createPaymentIntent = (data: Item) => {
         .catch((error) => error.response);
 };
 
+const checkIfPaid = (id: string) => {
+    return client
+        .get(`/items/check-if-paid/${id}`)
+        .then((response) => {
+            return response;
+        })
+        .catch((error) => error.response);
+};
+
 const itemsAPI = {
     getItems,
     createPaymentIntent,
+    checkIfPaid,
 };
 
 export default itemsAPI;
