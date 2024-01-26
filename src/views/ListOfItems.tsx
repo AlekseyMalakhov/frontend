@@ -20,7 +20,7 @@ export default function ListOfItems() {
 
     return (
         <main>
-            <h2>List of Items 4</h2>
+            <h2>List of Items 6</h2>
             <table>
                 <thead>
                     <tr>
